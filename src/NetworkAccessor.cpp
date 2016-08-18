@@ -1,4 +1,5 @@
 #include "NetworkAccessor.h"
+#include "Logger.h"
 #include "ConnectiveLog.h"
 #include "Database.h"
 #include "LoginData.h"
@@ -69,7 +70,7 @@ shared_ptr<ConnectiveLog> NetworkAccessor::getConnectiveLog(const QDateTime& beg
 		copy(data.begin(), data.end(), back_inserter(vec));
 		log->setData(vec);
 	}
-	qDebug() << "connective data:" << log->data().size();
+	qDebug() << QString("connective data:%1").arg(log->data().size());
 	return log;
 }
 
@@ -78,8 +79,8 @@ vector<shared_ptr<ConnectiveData>> NetworkAccessor::getConnectiveData(int page,
 		const QDateTime& end,
 		const QString& type)
 {
-	QString text = post(url(), connectionPostData(page, begin, end, type));
-	//qDebug() << text;
+	QByteArray data = connectionPostData(page, begin, end, type);
+	QString text = post(url(), data);
 	auto log = JsonParser::parseConnectiveLog(text);
 	return log->data();
 }
@@ -90,6 +91,7 @@ shared_ptr<LoginLog> NetworkAccessor::getLoginLog(const QDateTime& begin, const 
 	QByteArray data = loginPostData(1, begin, end, type );
 	QString text = post(url(), data);
 	shared_ptr<LoginLog> log = JsonParser::parseLoginLog(text);
+	logger().append( QString("login post data:%1").arg(data.constData()));
 	int total = log->result().totalPage();
 	for(int i = 1; i < total; ++i)
 	{

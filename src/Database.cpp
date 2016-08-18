@@ -230,7 +230,7 @@ vector<shared_ptr<ConnectiveData>> Database::getConnectiveData(unsigned int serv
 	qDebug() << "serverIP:" << serverIp;
 	if (!connect())
 		return vector<shared_ptr<ConnectiveData>>();
-	QString sql = "select * from ay_radacct where nasipaddress=:nasipaddress"
+	QString sql = "select radacctid, usename, nasaipaddress, callingstationid, framedipaddress, acctstarttime, acctstoptime from ay_radacct where nasipaddress=:nasipaddress"
 			  " and acctstarttime>=:starttime and acctstarttime <= :endtime;";
 	QSqlQuery query;
 	query.prepare(sql);

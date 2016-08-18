@@ -24,15 +24,15 @@ void run()
 int main(int argc, char** argv)
 {
 	QCoreApplication a(argc, argv);
-	Daemon::create();
-	while(true)
-	{
-	      	Configuration config;
-		//qDebug() << config.programmingStart() << " " << config.programmingEnd();
-		if (QTime::currentTime() > config.programmingStart() && QTime::currentTime() < config.programmingEnd())
+	//Daemon::create();
+	//while(true)
+	//{
+	//      	Configuration config;
+	//	//qDebug() << config.programmingStart() << " " << config.programmingEnd();
+	//	if (QTime::currentTime() > config.programmingStart() && QTime::currentTime() < config.programmingEnd())
 	      		run();
-	      	else
-	      		sleep(60);
-	}
+	//      	else
+	//      		sleep(60);
+	//}
 	return 0;
 }
